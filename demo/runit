@@ -1,10 +1,14 @@
 #!/bin/sh
+
+# parameters that you will need to edit and customize
 RUN_DIR=/Users/justin/sprinklr/cljsvc
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home
+
+# parameters for convenience, will work out of the box
 CLJ_NS=org.noisesmith.clj-jsvc-demo
 CLJ_DIR=demo/clj
 VERSION=0.0.1
 
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home
 
 jsvc -cp commons-daemon.jar:${CLJ_DIR}:target/cljsvc-${VERSION}-standalone.jar \
   -cwd $RUN_DIR \
