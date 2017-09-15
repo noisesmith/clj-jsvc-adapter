@@ -8,19 +8,13 @@ import clojure.lang.IFn;
 import clojure.java.api.Clojure;
 
 public class Cljsvc implements Daemon {
-  static Object ns_name;
-  static IFn require;
-  static IFn resolve;
-  static {
-    ns_name = Clojure.read(System.getenv("clojure.app.ns"));
-    require = Clojure.var("clojure.core", "require");
-    resolve = Clojure.var("clojure.core", "ns-resolve");
-  }
+  static String ns_name = System.getenv("clojure.app.ns");
+  static IFn require = Clojure.var("clojure.core", "require");
   public void init(DaemonContext context)
     throws DaemonInitException, Exception {
-    String fn_name = (String) Clojure.read("init");
-    Object ns = require.invoke(ns_name);
-    IFn ini_fn = (IFn) resolve.invoke(ns_name, fn_name);
+    Object ns_sym = Clojure.read(ns_name);
+    Object ns = require.invoke(ns_sym);
+    IFn ini_fn = Clojure.var(ns_name, "init");
     ini_fn.invoke(context);
   }
   public void start() throws Exception {
@@ -37,7 +31,8 @@ public class Cljsvc implements Daemon {
     try {
       service.start();
     } catch (Exception e) {
-      System.exit(0);
+      System.err.println(e.getMessage());
+      System.exit(1);
     }
   }
 }
