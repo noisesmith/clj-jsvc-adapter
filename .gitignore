@@ -12,3 +12,8 @@
 hs_err_pid*
 
 target/
+cljsvc.out
+cljsvc.err
+cljsvc.pid
+
+*.swp

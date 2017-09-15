@@ -1,7 +1,15 @@
 #!/bin/sh
+RUN_DIR=/Users/justin/sprinklr/cljsvc
+CLJ_NS=org.noisesmith.clj-jsvc-demo
+CLJ_DIR=demo/clj
+VERSION=0.0.1
+
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home
-jsvc -cp commons-daemon.jar:~/bin/clojure.jar:target/cljsvc-0.0.1-standalone.jar \
-  -cwd ~justin/sprinklr/cljsvc \
+
+jsvc -cp commons-daemon.jar:${CLJ_DIR}:target/cljsvc-${VERSION}-standalone.jar \
+  -cwd $RUN_DIR \
   -outfile cljsvc.out \
   -errfile cljsvc.err \
-  org.noisesmith.Cljsvc
+  -Dclojure.app.ns=$CLJ_NS \
+  -pidfile ${RUN_DIR}/cljsvc.pid \
+  org.noisesmith.Cljsvc $*
